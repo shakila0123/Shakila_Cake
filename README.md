@@ -7,7 +7,7 @@ Toko kue Shakila Cake saat ini masih mengandalkan obrolan manual (WhatsApp/Insta
 ## Profil Target Pengguna
 
 * **Pelanggan (Customer):** Pembeli umum (anak muda, mahasiswa, ibu rumah tangga) yang membutuhkan kue untuk acara ulang tahun, wisuda, atau perayaan tertentu. Menyukai tampilan visual yang jelas, ingin memilih varian kue dengan cepat via HP, dan membutuhkan kepastian tanggal pemesanan.
-* **Pengelola Toko / Admin :** Pemilik usaha Shakila Cake. Membutuhkan antarmuka admin yang sederhana dan intuitif (mudah dipahami tanpa latar belakang IT) untuk memperbarui menu dan melihat rekap pesanan harian.
+* **Pengelola Toko / Admin :** Pemilik toko Shakila Cake (mama). Membutuhkan antarmuka admin yang sederhana dan intuitif (mudah dipahami tanpa latar belakang IT) untuk memperbarui menu dan melihat rekap pesanan harian.
 
 ## Manfaat Aplikasi
 
