@@ -1,4 +1,4 @@
-# Shakila Cake: Sistem Informasi Katalog Digital dan Pemesanan Kue Pre-Order Berbasis Web
+# Shakila Cake: Web Katalog Kue & Manajemen Pemesanan Pre-Order
 
 ## Masalah Nyata yang Akan Diselesaikan
 
