@@ -36,5 +36,5 @@ Toko kue Shakila Cake saat ini masih mengandalkan obrolan manual (WhatsApp/Insta
 
 * **Fungsionalitas Katalog:** Pelanggan dapat menjelajahi menu kue, melihat harga, dan memfilter berdasarkan kategori tanpa error.
 * **Akurasi Pemesanan:** Form pemesanan berhasil menghasilkan ringkasan pesanan yang rapi (lengkap dengan tanggal, detail kustomisasi, dan total harga) lalu terkirim ke nomor WhatsApp toko.
-* **Kemudahan Kelola Data (Admin):** Admin (Mama) berhasil menambah/mengubah data kue di halaman admin tanpa perlu menyentuh kode program (database CRUD berjalan baik).
+* **Kemudahan Kelola Data (Admin):** Admin berhasil menambah/mengubah data kue di halaman admin tanpa perlu menyentuh kode program (database CRUD berjalan baik).
 * **Responsivitas Tampilan:** Tampilan web dapat diakses dengan baik dan nyaman melalui perangkat mobile (smartphone).
