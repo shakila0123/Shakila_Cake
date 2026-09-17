@@ -9,7 +9,7 @@ Toko kue Shakila Cake saat ini masih mengandalkan obrolan manual (WhatsApp/Insta
 * **Pelanggan (Customer):** Pembeli umum (anak muda, mahasiswa, ibu rumah tangga) yang membutuhkan kue untuk acara ulang tahun, wisuda, atau perayaan tertentu. Menyukai tampilan visual yang jelas, ingin memilih varian kue dengan cepat via HP, dan membutuhkan kepastian tanggal pemesanan.
 * **Pengelola Toko / Admin :** Pemilik toko Shakila Cake (mama). Membutuhkan antarmuka admin yang sederhana dan intuitif (mudah dipahami tanpa latar belakang IT) untuk memperbarui menu dan melihat rekap pesanan harian.
 
-## Manfaat Aplikasi
+## Manfaat Web
 
 * **Efisiensi Informasi (Pelanggan):** Memudahkan melihat seluruh varian kue, ukuran, dan harga secara transparan kapan saja tanpa perlu bertanya manual.
 * **Kemudahan Kustomisasi (Pelanggan):** Mempermudah proses pengisian formulir pemesanan khusus (custom ucapan, tanggal kirim, pilihan lilin).
@@ -32,7 +32,7 @@ Toko kue Shakila Cake saat ini masih mengandalkan obrolan manual (WhatsApp/Insta
 * **Akun Pelanggan (Login/Register):** Pelanggan bisa langsung memesan tanpa perlu membuat akun untuk mengurangi kompleksitas sistem.
 * **Sistem Rekomendasi AI / AR 3D Cake Visualizer:** Tidak menyediakan fitur rekomendasi berbasis AI maupun visualisasi kue 3D.
 
-## Kriteria Aplikasi Dinyatakan Berhasil
+## Kriteria Web Dinyatakan Berhasil
 
 * **Fungsionalitas Katalog:** Pelanggan dapat menjelajahi menu kue, melihat harga, dan memfilter berdasarkan kategori tanpa error.
 * **Akurasi Pemesanan:** Form pemesanan berhasil menghasilkan ringkasan pesanan yang rapi (lengkap dengan tanggal, detail kustomisasi, dan total harga) lalu terkirim ke nomor WhatsApp toko.
