@@ -1,4 +1,4 @@
-```markdown
+
 # Shakila Cake App
 
 Aplikasi web katalog digital dan pengelola pemesanan *pre-order* untuk toko kue lokal, dengan integrasi langsung ke WhatsApp dan dasbor manajemen berbasis Firebase.
@@ -50,7 +50,6 @@ Terdapat dua peran utama dalam aplikasi ini:
 
 ## Rencana Struktur Proyek
 
-```text
 shakila-cake-app/
   public/
     index.html          (Halaman Katalog untuk Pelanggan)
@@ -64,7 +63,7 @@ shakila-cake-app/
   docs/
     README.md           (Dokumen proyek)
 
-```
+
 
 ## Dokumen Proyek
 
