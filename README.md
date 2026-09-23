@@ -63,15 +63,13 @@ shakila-cake-app/
   docs/
     README.md           (Dokumen proyek)
 
-
-
 ## Dokumen Proyek
 
 | Dokumen | Isi |
-| --- | --- |
-| `Perencanaan_ShakilaCake.md` | Latar belakang masalah, profil pengguna, dan ide solusi |
-| `Kebutuhan_Sistem.md` | Rincian kendala operasional, fitur inti, dan kriteria keberhasilan |
-| `Panduan_Teknis_Firebase.md` | Spesifikasi teknis integrasi Firebase dan struktur HTML/CSS/JS |
+| :--- | :--- |
+| [`Perencanaan_ShakilaCake.md`](docs/Perencanaan_ShakilaCake.md) | Latar belakang masalah, profil pengguna, dan ide solusi |
+| [`Kebutuhan_Sistem.md`](docs/Kebutuhan_Sistem.md) | Rincian kendala operasional, fitur inti, dan kriteria keberhasilan |
+| [`Panduan_Teknis_Firebase.md`](docs/Panduan_Teknis_Firebase.md) | Spesifikasi teknis integrasi Firebase dan struktur HTML/CSS/JS |
 
 ## Bagian yang Akan Ditambahkan Setelah Aplikasi Jadi
 
