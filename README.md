@@ -42,7 +42,7 @@ Terdapat dua peran utama dalam aplikasi ini:
 
 | Bagian | Teknologi |
 | :--- | :--- |
-| **Frontend** | HTML5, CSS3 |
+| **Frontend** | HTML, CSS |
 | **Backend & Logic** | JavaScript (ES6+ Vanilla) |
 | **Database** | Firebase (Cloud Firestore / Realtime Database) |
 | **Autentikasi** | Firebase Authentication |
