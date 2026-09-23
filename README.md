@@ -1,40 +1,88 @@
-# Shakila Cake: Web Katalog Kue & Manajemen Pemesanan Pre-Order
+```markdown
+# Shakila Cake App
 
-## Masalah Nyata yang Akan Diselesaikan
+Aplikasi web katalog digital dan pengelola pemesanan *pre-order* untuk toko kue lokal, dengan integrasi langsung ke WhatsApp dan dasbor manajemen berbasis Firebase.
 
-Toko kue Shakila Cake saat ini masih mengandalkan obrolan manual (WhatsApp/Instagram) untuk seluruh proses operasional. Hal ini menimbulkan beberapa kendala nyata: pemasaran dan informasi tidak terstruktur karena pelanggan berulang kali menanyakan menu, pilihan rasa, ukuran, dan harga yang sama. Selain itu, terdapat risiko kesalahan pesanan (human error) di mana detail penting seperti tanggal pengiriman, ucapan kue, atau pilihan varian sering terselip di dalam chat yang menumpuk. Pemilik toko juga kesulitan mengatur batasan jumlah pesanan kue per hari (slot kuota pre-order), sehingga rawan terjadi overbooking.
+---
 
-## Profil Target Pengguna
+## Deskripsi Proyek
 
-* **Pelanggan (Customer):** Pembeli umum (anak muda, mahasiswa, ibu rumah tangga) yang membutuhkan kue untuk acara ulang tahun, wisuda, atau perayaan tertentu. Menyukai tampilan visual yang jelas, ingin memilih varian kue dengan cepat via HP, dan membutuhkan kepastian tanggal pemesanan.
-* **Pengelola Toko / Admin :** Pemilik toko Shakila Cake (mama). Membutuhkan antarmuka admin yang sederhana dan intuitif (mudah dipahami tanpa latar belakang IT) untuk memperbarui menu dan melihat rekap pesanan harian.
+**Shakila Cake App** membantu pelanggan melihat katalog kue, menyesuaikan pesanan (seperti tulisan ucapan dan varian rasa), dan melakukan pemesanan dengan mudah. Di sisi lain, aplikasi ini membantu pemilik toko (Mama) untuk mengelola daftar produk dan melihat rekap pesanan harian tanpa perlu mencatat manual dari obrolan WhatsApp yang menumpuk.
 
-## Manfaat Web
+## Latar Belakang
 
-* **Efisiensi Informasi (Pelanggan):** Memudahkan melihat seluruh varian kue, ukuran, dan harga secara transparan kapan saja tanpa perlu bertanya manual.
-* **Kemudahan Kustomisasi (Pelanggan):** Mempermudah proses pengisian formulir pemesanan khusus (custom ucapan, tanggal kirim, pilihan lilin).
-* **Efisiensi Operasional (Pemilik Toko):** Menghemat waktu operasional karena tidak perlu membalas pertanyaan harga/menu secara berulang-ulang.
-* **Manajemen Pesanan Terstruktur (Pemilik Toko):** Rekap pesanan menjadi rapi, terstruktur, dan meminimalkan kesalahan pembuatan kue.
+Saat ini operasional Shakila Cake masih mengandalkan obrolan manual di WhatsApp. Pelanggan berulang kali menanyakan menu dan daftar harga yang sama karena belum ada katalog terpusat. Selain itu, detail penting seperti tanggal pengambilan dan tulisan di atas kue rentan terselip, serta rekapitulasi pesanan harian masih dilakukan secara manual yang menyita waktu pemilik toko. Aplikasi ini menjawabnya dengan digitalisasi katalog dan format pesanan terstruktur.
 
-## Daftar Fitur Inti
+## Tujuan
 
-* **Halaman Katalog & Filter Menu:** Menampilkan foto kue, deskripsi, harga, dan filter berdasarkan kategori (Kue Ulang Tahun, Bolu, Pie Buah, dll.).
-* **Detail Produk & Opsi Kustomisasi:** Pelanggan dapat memilih ukuran, varian rasa, serta memasukkan teks ucapan di atas kue.
-* **Formulir Pemesanan & Pemilihan Tanggal:** Pelanggan memilih tanggal pengambilan/pengiriman dan metode pembayaran/pengambilan.
-* **Direct WhatsApp Checkout:** Mengonversi data pesanan menjadi format pesan teks yang rapi dan otomatis mengarahkan pelanggan ke WhatsApp Admin untuk konfirmasi pembayaran.
-* **Manajemen Produk (CRUD Admin):** Admin dapat menambah produk kue baru, mengedit harga/foto, atau menghapus produk.
-* **Manajemen Rekap Pesanan (Admin):** Halaman sederhana untuk melihat daftar pesanan yang masuk berdasarkan tanggal acara agar Mama tahu jadwal pembuatan kue setiap harinya.
+* Menyediakan katalog produk digital yang bisa diakses pelanggan kapan saja.
+* Mempermudah pelanggan dalam memilih kustomisasi kue (ukuran, rasa, ucapan).
+* Mengonversi data pesanan secara otomatis menjadi pesan WhatsApp yang rapi dan terstruktur.
+* Menyediakan dasbor admin yang intuitif untuk mengelola produk (CRUD).
+* Menyimpan data produk secara *real-time* dan aman menggunakan Firebase.
 
-## Fitur yang Tidak Dikerjakan (Out of Scope)
+## Target Pengguna
 
-* **Payment Gateway Otomatis:** Pembayaran tidak menggunakan sistem otomatis (Midtrans/Xendit), melainkan tetap menggunakan transfer manual atau konfirmasi via WhatsApp.
-* **Sistem Tracking Kurir / Integrasi Ekspedisi:** Tidak ada fitur pelacakan kurir real-time (Grab/Gojek). Pengiriman dikordinasikan secara manual via WhatsApp.
-* **Akun Pelanggan (Login/Register):** Pelanggan bisa langsung memesan tanpa perlu membuat akun untuk mengurangi kompleksitas sistem.
-* **Sistem Rekomendasi AI / AR 3D Cake Visualizer:** Tidak menyediakan fitur rekomendasi berbasis AI maupun visualisasi kue 3D.
+Terdapat dua peran utama dalam aplikasi ini:
 
-## Kriteria Web Dinyatakan Berhasil
+* **Pelanggan:** Pembeli umum yang ingin melihat katalog, mencari kue untuk acara tertentu, dan melakukan pemesanan tanpa harus registrasi akun.
+* **Admin (Mama):** Pemilik toko yang bertugas menambah/mengedit produk di katalog dan melihat rekap jadwal produksi harian.
 
-* **Fungsionalitas Katalog:** Pelanggan dapat menjelajahi menu kue, melihat harga, dan memfilter berdasarkan kategori tanpa error.
-* **Akurasi Pemesanan:** Form pemesanan berhasil menghasilkan ringkasan pesanan yang rapi (lengkap dengan tanggal, detail kustomisasi, dan total harga) lalu terkirim ke nomor WhatsApp toko.
-* **Kemudahan Kelola Data (Admin):** Admin berhasil menambah/mengubah data kue di halaman admin tanpa perlu menyentuh kode program (database CRUD berjalan baik).
-* **Responsivitas Tampilan:** Tampilan web dapat diakses dengan baik dan nyaman melalui perangkat mobile (smartphone).
+## Rencana Fitur
+
+* Autentikasi Login (Khusus Admin/Mama)
+* Tampilan katalog digital interaktif
+* Filter produk berdasarkan kategori (Kue Ulang Tahun, Dessert Box, Snack Box)
+* Form pemesanan dengan input kustomisasi (tanggal ambil, tulisan ucapan, varian rasa)
+* *Direct WhatsApp Checkout Engine*
+* Pencatatan dan pengelolaan produk (Tambah, Edit, Hapus) di dasbor admin
+* Tampilan rekap pesanan otomatis di sisi admin
+
+## Rencana Tech Stack
+
+| Bagian | Teknologi |
+| :--- | :--- |
+| **Frontend** | HTML5, CSS3 |
+| **Backend & Logic** | JavaScript (ES6+ Vanilla) |
+| **Database** | Firebase (Cloud Firestore / Realtime Database) |
+| **Autentikasi** | Firebase Authentication |
+| **Infrastruktur** | Firebase Hosting / GitHub Pages |
+
+## Rencana Struktur Proyek
+
+```text
+shakila-cake-app/
+  public/
+    index.html          (Halaman Katalog untuk Pelanggan)
+    admin.html          (Halaman Dasbor Manajemen)
+    css/
+      style.css         (Styling aplikasi)
+    js/
+      app.js            (Logika UI pelanggan & integrasi WhatsApp)
+      admin.js          (Logika dasbor admin & autentikasi)
+      firebase-config.js (Inisialisasi Firebase SDK)
+  docs/
+    README.md           (Dokumen proyek)
+
+```
+
+## Dokumen Proyek
+
+| Dokumen | Isi |
+| --- | --- |
+| `Perencanaan_ShakilaCake.md` | Latar belakang masalah, profil pengguna, dan ide solusi |
+| `Kebutuhan_Sistem.md` | Rincian kendala operasional, fitur inti, dan kriteria keberhasilan |
+| `Panduan_Teknis_Firebase.md` | Spesifikasi teknis integrasi Firebase dan struktur HTML/CSS/JS |
+
+## Bagian yang Akan Ditambahkan Setelah Aplikasi Jadi
+
+* [ ] Tautan (Link) aplikasi yang sudah di-hosting (Live URL)
+* [ ] Tangkapan layar (Screenshot) antarmuka aplikasi versi akhir
+* [ ] Panduan singkat penggunaan dasbor admin untuk Mama
+* [ ] Struktur data produk di Firebase
+* [ ] Daftar keterbatasan aplikasi pada rilis pertama
+* [ ] Rencana pengembangan fitur selanjutnya
+
+```
+
+```
