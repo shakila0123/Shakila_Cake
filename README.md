@@ -1,5 +1,5 @@
 
-# Shakila Cake App
+# Shakila Cake Web
 
 Aplikasi web katalog digital dan pengelola pemesanan *pre-order* untuk toko kue lokal, dengan integrasi langsung ke WhatsApp dan dasbor manajemen berbasis Firebase.
 
@@ -7,7 +7,7 @@ Aplikasi web katalog digital dan pengelola pemesanan *pre-order* untuk toko kue 
 
 ## Deskripsi Proyek
 
-**Shakila Cake App** membantu pelanggan melihat katalog kue, menyesuaikan pesanan (seperti tulisan ucapan dan varian rasa), dan melakukan pemesanan dengan mudah. Di sisi lain, aplikasi ini membantu pemilik toko (Mama) untuk mengelola daftar produk dan melihat rekap pesanan harian tanpa perlu mencatat manual dari obrolan WhatsApp yang menumpuk.
+**Shakila Cake Web** membantu pelanggan melihat katalog kue, menyesuaikan pesanan (seperti tulisan ucapan dan varian rasa), dan melakukan pemesanan dengan mudah. Di sisi lain, aplikasi ini membantu pemilik toko (Mama) untuk mengelola daftar produk dan melihat rekap pesanan harian tanpa perlu mencatat manual dari obrolan WhatsApp yang menumpuk.
 
 ## Latar Belakang
 
@@ -32,7 +32,7 @@ Terdapat dua peran utama dalam aplikasi ini:
 
 * Autentikasi Login (Khusus Admin/Mama)
 * Tampilan katalog digital interaktif
-* Filter produk berdasarkan kategori (Kue Ulang Tahun, Dessert Box, Snack Box)
+* Filter produk berdasarkan kategori (Kue Ulang Tahun, Pie Buah, Bolu)
 * Form pemesanan dengan input kustomisasi (tanggal ambil, tulisan ucapan, varian rasa)
 * *Direct WhatsApp Checkout Engine*
 * Pencatatan dan pengelolaan produk (Tambah, Edit, Hapus) di dasbor admin
@@ -50,7 +50,7 @@ Terdapat dua peran utama dalam aplikasi ini:
 
 ## Rencana Struktur Proyek
 
-shakila-cake-app/
+shakila-cake-Web/
   public/
     index.html          (Halaman Katalog untuk Pelanggan)
     admin.html          (Halaman Dasbor Manajemen)
@@ -73,11 +73,10 @@ shakila-cake-app/
 
 ## Bagian yang Akan Ditambahkan Setelah Aplikasi Jadi
 
-* [ ] Tautan (Link) aplikasi yang sudah di-hosting (Live URL)
+* [ ] Tautan (Link) web yang sudah di-hosting (Live URL)
 * [ ] Tangkapan layar (Screenshot) antarmuka aplikasi versi akhir
 * [ ] Panduan singkat penggunaan dasbor admin untuk Mama
 * [ ] Struktur data produk di Firebase
-* [ ] Daftar keterbatasan aplikasi pada rilis pertama
 * [ ] Rencana pengembangan fitur selanjutnya
 
 ```
