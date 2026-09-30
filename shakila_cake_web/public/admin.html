@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor Admin - Shakila Cake</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
+        <h1>Dasbor Admin Shakila Cake</h1>
+        <!-- Sembunyikan tombol logout secara default -->
+        <button id="btn-logout" class="btn-order hidden" style="background:#e74c3c; width:auto; padding: 8px 16px;">Logout</button>
+    </header>
+
+    <main>
+        <!-- Sembunyikan seluruh dasbor secara default -->
+        <section id="dashboard-section" class="hidden">
+            <h2>Tambah Produk Baru</h2>
+            <form id="add-product-form">
+                <input type="text" id="prod-name" placeholder="Nama Produk" required>
+                <select id="prod-category" required>
+                    <option value="Kue Ulang Tahun">kue ulang tahun</option>
+                    <option value="Bolu Gulung">Bolu Gulung</option>
+                    <option value="Brownies">Brownies</option>
+                    <option value="Pie buah">Pie Buah</option>
+                </select>
+                <input type="number" id="prod-price" placeholder="Harga (Cth: 150000)" required>
+                <input type="url" id="prod-image" placeholder="URL Gambar Produk" required>
+                <textarea id="prod-desc" placeholder="Deskripsi Singkat" required></textarea>
+                <button type="submit" class="btn-order">Simpan Produk</button>
+            </form>
+
+            <h2 style="margin-top:30px;">Daftar Produk</h2>
+            <div id="admin-product-list" class="product-grid">
+                <!-- Data produk dari Firebase -->
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="JS/admin.js"></script>
+</body>
+</html>

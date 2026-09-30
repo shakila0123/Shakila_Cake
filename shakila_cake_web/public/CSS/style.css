@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fcf9f9;
+    color: #333;
+}
+
+header {
+    background-color: #e88a9a;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid #e88a9a;
+    background: transparent;
+    color: #e88a9a;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    background: #e88a9a;
+    color: white;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card h3 { margin: 10px 0 5px; }
+.product-card .price { color: #e88a9a; font-weight: bold; margin-bottom: 10px; }
+.btn-order { background: #e88a9a; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
+
+/* Modal Styling */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+}
+.modal.hidden { display: none; }
+.modal-content {
+    background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px;
+    position: relative;
+}
+.close-btn { position: absolute; right: 15px; top: 15px; font-size: 24px; cursor: pointer; }
+.modal form { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.modal input, .modal textarea { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+.btn-wa { background: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
