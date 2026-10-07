@@ -26,7 +26,10 @@
                     <option value="Pie buah">Pie Buah</option>
                 </select>
                 <input type="number" id="prod-price" placeholder="Harga (Cth: 150000)" required>
-                <input type="url" id="prod-image" placeholder="URL Gambar Produk" required>
+                <label for="prod-image">Foto Produk (maksimal 5 MB):</label>
+                <input type="file" id="prod-image" accept="image/*" required>
+                <img id="prod-image-preview" alt="Pratinjau foto produk" hidden style="max-width:100%; max-height:220px; object-fit:contain; border-radius:8px;">
+                <p id="upload-status" role="status" aria-live="polite"></p>
                 <textarea id="prod-desc" placeholder="Deskripsi Singkat" required></textarea>
                 <button type="submit" class="btn-order">Simpan Produk</button>
             </form>
@@ -37,7 +40,6 @@
             </div>
         </section>
     </main>
-
-    <script type="module" src="JS/admin.js"></script>
+<script type="module" src="JS/admin.js"></script>
 </body>
 </html>

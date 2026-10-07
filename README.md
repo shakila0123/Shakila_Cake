@@ -71,6 +71,10 @@ shakila-cake-Web/
 | [`Kebutuhan_Sistem.md`](docs/Kebutuhan_Sistem.md) | Rincian kendala operasional, fitur inti, dan kriteria keberhasilan |
 | [`Panduan_Teknis_Firebase.md`](docs/Panduan_Teknis_Firebase.md) | Spesifikasi teknis integrasi Firebase dan struktur HTML/CSS/JS |
 
+## Upload Foto Produk
+
+Aktifkan Firebase Storage untuk project terlebih dahulu, lalu deploy situs dan aturan Storage dengan `firebase deploy --only hosting,storage`. Admin yang sudah login dapat mengunggah foto maksimal 5 MB; foto disimpan di Firebase Storage dan otomatis ditampilkan di katalog.
+
 ## Bagian yang Akan Ditambahkan Setelah Aplikasi Jadi
 
 * [ ] Tautan (Link) web yang sudah di-hosting (Live URL)

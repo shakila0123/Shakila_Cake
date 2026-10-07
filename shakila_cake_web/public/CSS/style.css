@@ -11,7 +11,7 @@ body {
 }
 
 header {
-    background-color: #e88a9a;
+    background-color: #b67a4a;
     color: white;
     padding: 20px;
     text-align: center;
@@ -33,16 +33,16 @@ main {
 
 .filter-btn {
     padding: 8px 16px;
-    border: 1px solid #e88a9a;
+    border: 1px solid #b67a4a;
     background: transparent;
-    color: #e88a9a;
+    color: #b67a4a;
     border-radius: 20px;
     cursor: pointer;
     white-space: nowrap;
 }
 
 .filter-btn.active, .filter-btn:hover {
-    background: #e88a9a;
+    background: #b67a4a ;
     color: white;
 }
 
@@ -67,9 +67,22 @@ main {
     border-radius: 8px;
 }
 
+.product-image-error {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 8px;
+    background: #f3ece6;
+    color: #704b32;
+    text-align: center;
+}
+
 .product-card h3 { margin: 10px 0 5px; }
-.product-card .price { color: #e88a9a; font-weight: bold; margin-bottom: 10px; }
-.btn-order { background: #e88a9a; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
+.product-card .price { color: #b67a4a; font-weight: bold; margin-bottom: 10px; }
+.btn-order { background: #b67a4a; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
 
 /* Modal Styling */
 .modal {
@@ -86,3 +99,65 @@ main {
 .modal form { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .modal input, .modal textarea { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
 .btn-wa { background: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25D366; /* Warna hijau khas WhatsApp */
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
+}
+
+/* Efek saat kursor mengarah ke tombol (Hover) */
+.btn-wa:hover {
+  background-color: #1ebd56;
+  transform: translateY(-2px); /* Efek terangkat sedikit */
+  box-shadow: 0 6px 15px rgba(37, 211, 102, 0.35);
+}
+
+/* Efek saat tombol ditekan (Click) */
+.btn-wa:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(37, 211, 102, 0.2);
+}
+
+/* Otomatis memenuhi lebar kartu jika berada di dalam kartu produk */
+.product-card .btn-wa {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* Tombol melayang pojok kanan bawah */
+.btn-request-float {
+  position: fixed !important;
+  bottom: 25px !important;
+  right: 25px !important;
+  left: auto !important;
+  background-color: #D85A22;
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 4px 15px rgba(216, 90, 34, 0.4);
+  z-index: 9999;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-request-float:hover {
+  background-color: #B84818;
+  transform: translateY(-3px);
+}

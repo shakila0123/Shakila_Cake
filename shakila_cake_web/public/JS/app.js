@@ -1,7 +1,7 @@
 import { db } from './firebase_config.js';
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-const WA_NUMBER = "6281234567890"; // Ganti dengan nomor WhatsApp Mama
+const WA_NUMBER = "6285656125421";
 
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts('all');
@@ -17,26 +17,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Logika Modal WA
     const modal = document.getElementById('order-modal');
-    document.querySelector('.close-btn').addEventListener('click', () => modal.classList.add('hidden'));
+    const closeBtn = document.querySelector('.close-btn');
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    }
 
-    document.getElementById('order-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const productName = document.getElementById('product-name').value;
-        const name = document.getElementById('customer-name').value;
-        const date = document.getElementById('order-date').value;
-        const variant = document.getElementById('order-variant').value;
-        const text = document.getElementById('order-text').value;
+    const orderForm = document.getElementById('order-form');
+    if (orderForm) {
+        orderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const productName = document.getElementById('product-name').value;
+            const name = document.getElementById('customer-name').value;
+            const date = document.getElementById('order-date').value;
+            const variant = document.getElementById('order-variant').value;
+            const text = document.getElementById('order-text').value;
 
-        const waText = `Halo Shakila Cake, saya ingin memesan:\n\n*Produk:* ${productName}\n*Nama:* ${name}\n*Tanggal Ambil:* ${date}\n*Varian/Ukuran:* ${variant}\n*Tulisan di Kue:* ${text || '-'}\n\nMohon info total harga dan pembayarannya. Terima kasih!`;
-        const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
-        window.open(waUrl, '_blank');
-        modal.classList.add('hidden');
-        e.target.reset();
-    });
+            const waText = `Halo Shakila Cake, saya ingin memesan:\n\n*Produk:* ${productName}\n*Nama:* ${name}\n*Tanggal Ambil:* ${date}\n*Varian/Ukuran:* ${variant}\n*Tulisan di Kue:* ${text || '-'}\n\nMohon info total harga dan pembayarannya. Terima kasih!`;
+            const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+            window.open(waUrl, '_blank');
+            modal.classList.add('hidden');
+            e.target.reset();
+        });
+    }
 });
 
 async function loadProducts(category) {
     const productList = document.getElementById('product-list');
+    if (!productList) return;
+    
     productList.innerHTML = "<p>Memuat produk...</p>";
     
     try {
@@ -56,12 +64,28 @@ async function loadProducts(category) {
             const data = doc.data();
             const card = document.createElement('div');
             card.className = 'product-card';
+            
+            const imageUrl = data.imageUrl || data.image;
+            const image = document.createElement('img');
+            image.alt = data.name || 'Foto produk';
+            
+            // Jika link/gambar rusak, otomatis gunakan gambar placeholder tanpa tulisan error
+            image.addEventListener('error', () => {
+                image.src = 'https://placehold.co/300x200?text=Foto+Kue';
+            }, { once: true });
+
+            if (typeof imageUrl === 'string' && imageUrl.trim()) {
+                image.src = imageUrl;
+            } else {
+                image.src = 'https://placehold.co/300x200?text=Foto+Kue';
+            }
+
             card.innerHTML = `
-                <img src="${data.imageUrl}" alt="${data.name}">
                 <h3>${data.name}</h3>
-                <p class="price">Rp ${data.price.toLocaleString('id-ID')}</p>
+                <p class="price">Rp ${Number(data.price).toLocaleString('id-ID')}</p>
                 <button class="btn-order" onclick="openOrderModal('${data.name}')">Pesan</button>
             `;
+            card.prepend(image);
             productList.appendChild(card);
         });
     } catch (error) {
@@ -71,6 +95,19 @@ async function loadProducts(category) {
 }
 
 window.openOrderModal = (productName) => {
-    document.getElementById('product-name').value = productName;
-    document.getElementById('order-modal').classList.remove('hidden');
-}
+    const modal = document.getElementById('order-modal');
+    if (modal) {
+        document.getElementById('product-name').value = productName;
+        modal.classList.remove('hidden');
+    }
+};
+
+window.requestCustomWA = function() {
+    const pesan = "Halo Shakila Cake, saya ingin tanya-tanya tentang pesan kue custom.";
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
+};
+
+window.orderViaWA = function(namaKue, harga) {
+    const pesan = `Halo Shakila Cake, saya ingin memesan ${namaKue} seharga Rp ${Number(harga).toLocaleString('id-ID')}`;
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
+};
