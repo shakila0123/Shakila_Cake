@@ -1,9 +1,12 @@
 import { db } from './firebase_config.js';
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-const WA_NUMBER = "6285656125421";
+import { initWAModal } from './wa.js'; // Import fitur WA dari file wa.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Inisialisasi modal WA
+    initWAModal();
+
+    // Load produk pertama kali
     loadProducts('all');
     
     // Filter Kategori
@@ -14,31 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loadProducts(e.target.dataset.category);
         });
     });
-
-    // Logika Modal WA
-    const modal = document.getElementById('order-modal');
-    const closeBtn = document.querySelector('.close-btn');
-    if (closeBtn && modal) {
-        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-    }
-
-    const orderForm = document.getElementById('order-form');
-    if (orderForm) {
-        orderForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const productName = document.getElementById('product-name').value;
-            const name = document.getElementById('customer-name').value;
-            const date = document.getElementById('order-date').value;
-            const variant = document.getElementById('order-variant').value;
-            const text = document.getElementById('order-text').value;
-
-            const waText = `Halo Shakila Cake, saya ingin memesan:\n\n*Produk:* ${productName}\n*Nama:* ${name}\n*Tanggal Ambil:* ${date}\n*Varian/Ukuran:* ${variant}\n*Tulisan di Kue:* ${text || '-'}\n\nMohon info total harga dan pembayarannya. Terima kasih!`;
-            const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
-            window.open(waUrl, '_blank');
-            modal.classList.add('hidden');
-            e.target.reset();
-        });
-    }
 });
 
 async function loadProducts(category) {
@@ -69,7 +47,6 @@ async function loadProducts(category) {
             const image = document.createElement('img');
             image.alt = data.name || 'Foto produk';
             
-            // Jika link/gambar rusak, otomatis gunakan gambar placeholder tanpa tulisan error
             image.addEventListener('error', () => {
                 image.src = 'https://placehold.co/300x200?text=Foto+Kue';
             }, { once: true });
@@ -93,21 +70,3 @@ async function loadProducts(category) {
         productList.innerHTML = "<p>Gagal memuat produk. Periksa koneksi atau konfigurasi Firebase.</p>";
     }
 }
-
-window.openOrderModal = (productName) => {
-    const modal = document.getElementById('order-modal');
-    if (modal) {
-        document.getElementById('product-name').value = productName;
-        modal.classList.remove('hidden');
-    }
-};
-
-window.requestCustomWA = function() {
-    const pesan = "Halo Shakila Cake, saya ingin tanya-tanya tentang pesan kue custom.";
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
-};
-
-window.orderViaWA = function(namaKue, harga) {
-    const pesan = `Halo Shakila Cake, saya ingin memesan ${namaKue} seharga Rp ${Number(harga).toLocaleString('id-ID')}`;
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
-};
