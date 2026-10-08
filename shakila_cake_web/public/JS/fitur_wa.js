@@ -1,6 +1,5 @@
 export const WA_NUMBER = "6285656125421";
 
-// Inisialisasi event listener modal WA
 export function initWAModal() {
     const modal = document.getElementById('order-modal');
     const closeBtn = document.querySelector('.close-btn');

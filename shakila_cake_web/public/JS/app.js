@@ -1,12 +1,11 @@
 import { db } from './firebase_config.js';
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { initWAModal } from './wa.js'; // Import fitur WA dari file wa.js
+import { initWAModal } from './fitur_wa.js'; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inisialisasi modal WA
+    
     initWAModal();
 
-    // Load produk pertama kali
     loadProducts('all');
     
     // Filter Kategori
