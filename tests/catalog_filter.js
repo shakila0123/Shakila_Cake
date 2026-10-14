@@ -1,4 +1,4 @@
-import { filterCatalog } from '../src/shakilaCore.js';
+import { filterCatalog } from '../src/shakilamvp.js';
 
 describe('MVP 1: Filter & Pencarian Katalog Produk Shakila Cake', () => {
   const mockCatalog = [
