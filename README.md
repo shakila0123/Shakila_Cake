@@ -36,7 +36,7 @@ Terdapat dua peran utama dalam aplikasi ini:
 * Form pemesanan dengan input kustomisasi (tanggal ambil, tulisan ucapan, varian rasa)
 * *Direct WhatsApp Checkout Engine*
 * Pencatatan dan pengelolaan produk (Tambah, Edit, Hapus) di dasbor admin
-* Tampilan rekap pesanan otomatis di sisi admin
+
 
 ## Rencana Tech Stack
 
@@ -70,6 +70,8 @@ shakila-cake-Web/
 | [`Perencanaan_ShakilaCake.md`](docs/Perencanaan_ShakilaCake.md) | Latar belakang masalah, profil pengguna, dan ide solusi |
 | [`Kebutuhan_Sistem.md`](docs/Kebutuhan_Sistem.md) | Rincian kendala operasional, fitur inti, dan kriteria keberhasilan |
 | [`Panduan_Teknis_Firebase.md`](docs/Panduan_Teknis_Firebase.md) | Spesifikasi teknis integrasi Firebase dan struktur HTML/CSS/JS |
+| [`HowToRun.md`](HowToRun.md) | Persiapan Firebase dan petunjuk menjalankan aplikasi |
+| [`checklist_mvp.md`](checklist_mvp.md) | Checklist fitur dan status pengujian MVP |
 
 ## Upload Foto Produk
 

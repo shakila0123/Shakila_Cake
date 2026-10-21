@@ -1,18 +1,78 @@
-rules_version='2'
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2026, 10, 30);
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+
+    match /admins/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasAll([
+          'name', 'category', 'price', 'description', 'imageUrl', 'isActive'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'name', 'category', 'price', 'description', 'imageUrl', 'storagePath', 'isActive'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 3
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.category in [
+          'Kue Ulang Tahun', 'Bolu Gulung', 'Brownies', 'Pie Buah', 'Pie buah', 'Bolu'
+        ]
+        && request.resource.data.price is number
+        && request.resource.data.price > 0
+        && request.resource.data.description is string
+        && request.resource.data.description.size() <= 500
+        && request.resource.data.imageUrl is string
+        && request.resource.data.imageUrl.size() <= 2000
+        && request.resource.data.isActive is bool;
+      allow delete: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow create: if request.resource.data.keys().hasAll([
+          'customerName', 'productId', 'productName', 'category', 'flavor', 'size',
+          'greetingText', 'candleCount', 'pickupAt', 'basePrice', 'cakePrice',
+          'candleTotal', 'totalPrice', 'status', 'createdAt'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'customerName', 'productId', 'productName', 'category', 'flavor', 'size',
+          'greetingText', 'candleCount', 'pickupAt', 'basePrice', 'cakePrice',
+          'candleTotal', 'totalPrice', 'status', 'createdAt'
+        ])
+        && request.resource.data.customerName is string
+        && request.resource.data.customerName.size() >= 2
+        && request.resource.data.customerName.size() <= 80
+        && request.resource.data.productId is string
+        && request.resource.data.productName is string
+        && request.resource.data.productName.size() <= 100
+        && request.resource.data.category is string
+        && request.resource.data.flavor is string
+        && request.resource.data.flavor.size() <= 60
+        && request.resource.data.size in ['16cm', '20cm', '24cm']
+        && request.resource.data.greetingText is string
+        && request.resource.data.greetingText.size() <= 35
+        && request.resource.data.candleCount is int
+        && request.resource.data.candleCount >= 0
+        && request.resource.data.candleCount <= 20
+        && request.resource.data.pickupAt is string
+        && request.resource.data.basePrice is number
+        && request.resource.data.basePrice > 0
+        && request.resource.data.cakePrice is number
+        && request.resource.data.candleTotal is number
+        && request.resource.data.totalPrice is number
+        && request.resource.data.status == 'menunggu_konfirmasi'
+        && request.resource.data.createdAt is string;
+      allow read, update, delete: if isAdmin();
     }
   }
 }

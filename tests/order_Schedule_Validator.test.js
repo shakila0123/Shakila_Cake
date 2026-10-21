@@ -10,6 +10,11 @@ describe('MVP 3: Aturan Waktu Pre-Order (H-2 & Jam Ambil)', () => {
     expect(result.reason).toContain('minimal H-2');
   });
 
+  test('Harus menolak tanggal pengambilan yang kosong atau tidak valid', () => {
+    expect(validatePreOrderSchedule('', now).isValid).toBe(false);
+    expect(validatePreOrderSchedule('bukan-tanggal', now).isValid).toBe(false);
+  });
+
   test('Harus menolak pemesanan H-1 (24 jam kemudian)', () => {
     const nextDay = '2026-10-16T10:00:00Z';
     const result = validatePreOrderSchedule(nextDay, now);

@@ -16,6 +16,8 @@ describe('MVP 4: Generator Link Direct WhatsApp Checkout', () => {
       customerName: 'Budi Santoso',
       cakeName: 'Black Forest Klasik',
       size: '20cm',
+      flavor: 'Cokelat',
+      candleCount: 3,
       greetingText: 'HBD Adik',
       pickupDate: '2026-10-20 10:00',
       totalPrice: 217500
@@ -24,6 +26,8 @@ describe('MVP 4: Generator Link Direct WhatsApp Checkout', () => {
     expect(link).toContain('https://wa.me/6281234567890?text=');
     expect(link).toContain(encodeURIComponent('Budi Santoso'));
     expect(link).toContain(encodeURIComponent('Black Forest Klasik (20cm)'));
+    expect(link).toContain(encodeURIComponent('Varian Rasa:* Cokelat'));
+    expect(link).toContain(encodeURIComponent('Lilin:* 3'));
     expect(link).toContain(encodeURIComponent('Rp217.500'));
   });
 

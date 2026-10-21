@@ -33,5 +33,11 @@ describe('MVP 2: Kalkulasi Harga Kustomisasi Kue', () => {
   test('Harus melempar error jika harga dasar kue negatif atau bukan angka', () => {
     expect(() => calculateOrderPrice({ basePrice: -10000 })).toThrow('Harga dasar kue tidak valid');
     expect(() => calculateOrderPrice({ basePrice: 'gratis' })).toThrow('Harga dasar kue tidak valid');
+    expect(() => calculateOrderPrice({ basePrice: Number.NaN })).toThrow('Harga dasar kue tidak valid');
+  });
+
+  test('Harus menolak jumlah lilin yang bukan bilangan bulat atau melebihi batas', () => {
+    expect(() => calculateOrderPrice({ basePrice, candleCount: 1.5 })).toThrow('Jumlah lilin harus bilangan bulat non-negatif');
+    expect(() => calculateOrderPrice({ basePrice, candleCount: 21 })).toThrow('Jumlah lilin harus bilangan bulat non-negatif');
   });
 });
