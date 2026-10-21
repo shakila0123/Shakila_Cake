@@ -66,9 +66,6 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
 
    Halaman admin memerlukan login akun Firebase yang sudah diberi akses admin. Setelah login, admin dapat mengelola produk dan melihat rekap pesanan.
 
-   email:   admin@shakilacake.com
-   Pass :   123456
-
 ## Menghentikan server
 
 Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C**.
@@ -77,12 +74,8 @@ Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C*
 
 Server Python hanya menyajikan file web secara lokal; server ini tidak menggantikan Firebase. Fitur katalog, login admin, penyimpanan produk/pesanan, dan unggah foto memerlukan koneksi internet dan konfigurasi Firebase yang valid pada [firebase_config.js](shakila_cake_web/public/JS/firebase_config.js).
 
-Untuk demo fitur tersebut, project Firebase perlu mengaktifkan **Authentication Email/Password**, **Cloud Firestore**, dan **Firebase Storage**. Akun admin juga harus terdaftar di Firebase Authentication dan memiliki dokumen Firestore `admins/{UID_ADMIN}` dengan data:
+Untuk demo fitur tersebut, project Firebase perlu mengaktifkan **Authentication Email/Password**, **Cloud Firestore**, dan **Firebase Storage**.
 
-```json
-{
-  "active": true
-}
-```
+Gunakan akun admin demo yang telah disiapkan untuk aplikasi saat membuka halaman admin. Detail kredensial tidak dicantumkan di file ini.
 
 Jika halaman menampilkan pesan gagal memuat/menyimpan data, periksa koneksi internet, konfigurasi project Firebase, layanan Firebase yang aktif, serta aturan keamanan Firestore dan Storage. Jangan mengganti aturan keamanan dengan aturan yang mengizinkan semua pengguna membaca dan menulis data.
