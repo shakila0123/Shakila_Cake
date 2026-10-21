@@ -1,6 +1,6 @@
 # Cara Menjalankan Proyek Shakila Cake
 
-Panduan ini untuk menjalankan aplikasi secara lokal di komputer dosen/penilai menggunakan Python. Tidak perlu menjalankan `npm install` untuk membuka halaman dengan server ini.
+Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Python. Tidak perlu menjalankan `npm install` untuk membuka halaman dengan server ini.
 
 ## Persiapan
 
@@ -32,7 +32,7 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer dosen/penilai me
 1. Dari folder utama `Shakila_Cake`, masuk ke folder `public` aplikasi:
 
    ```powershell
-   cd ".\shakila_cake_web\public"
+   cd "shakila_cake_web\public"
    ```
 
    Pastikan folder aktif benar dengan menjalankan:

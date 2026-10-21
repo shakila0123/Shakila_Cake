@@ -11,6 +11,7 @@ body {
 }
 
 header {
+    position: relative;
     background-color: #b67a4a;
     color: white;
     padding: 20px;
@@ -165,9 +166,20 @@ main {
 .hidden { display: none !important; }
 
 .header-link {
-    display: inline-block;
-    margin-top: 8px;
-    color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    background-color: transparent;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.header-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .search-label {
