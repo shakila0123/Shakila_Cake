@@ -66,6 +66,9 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
 
    Halaman admin memerlukan login akun Firebase yang sudah diberi akses admin. Setelah login, admin dapat mengelola produk dan melihat rekap pesanan.
 
+   email:   admin@shakilacake.com
+   Pass :   123456
+
 ## Menghentikan server
 
 Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C**.
