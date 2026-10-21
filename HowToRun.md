@@ -1,62 +1,85 @@
-# Cara Menjalankan Shakila Cake
+# Cara Menjalankan Proyek Shakila Cake
 
-## Persyaratan
+Panduan ini untuk menjalankan aplikasi secara lokal di komputer dosen/penilai menggunakan Python. Tidak perlu menjalankan `npm install` untuk membuka halaman dengan server ini.
 
-- Node.js 18 atau lebih baru dan npm.
-- Akses ke project Firebase yang digunakan aplikasi.
-- Firebase Authentication (Email/Password), Cloud Firestore, dan Firebase Storage aktif.
+## Persiapan
 
-## Menyiapkan Firebase
-
-1. Pastikan konfigurasi pada [firebase_config.js](shakila_cake_web/public/JS/firebase_config.js) mengarah ke project Firebase yang benar. Project yang tercantum saat ini adalah `shakila-cake-web`.
-2. Di Firebase Console, aktifkan **Authentication > Sign-in method > Email/Password**.
-3. Buat satu akun admin di **Authentication > Users**, lalu salin UID akun tersebut.
-4. Buat database Cloud Firestore dan aktifkan Firebase Storage untuk project.
-5. Deploy aturan keamanan sebelum mencoba aplikasi:
+1. Pastikan **Python 3** sudah terpasang. Periksa melalui terminal VS Code:
 
    ```powershell
-   npx firebase-tools deploy --only firestore:rules,storage --project shakila-cake-web
+   python --version
    ```
 
-6. Di Firestore Console, buat dokumen `admins/{UID_ADMIN}` (ID dokumen harus sama persis dengan UID akun) dengan data:
+   Jika perintah `python` tidak dikenali di Windows, coba:
 
-   ```json
-   {
-     "active": true
-   }
+   ```powershell
+   py --version
    ```
 
-   Pembuatan dokumen admin hanya dapat dilakukan melalui Firebase Console atau lingkungan admin tepercaya; aplikasi tidak menyediakan pendaftaran/promosi admin.
-7. Pastikan nomor WhatsApp toko pada konstanta `WA_NUMBER` di [fitur_wa.js](shakila_cake_web/public/JS/fitur_wa.js) benar dan berformat kode negara, tanpa tanda `+`.
+2. Buka folder utama repository **Shakila_Cake** di VS Code.
+3. Buka terminal VS Code melalui menu **Terminal > New Terminal**. Terminal perlu berada di folder proyek yang berisi folder `shakila_cake_web`.
 
-## Instalasi, tes, dan menjalankan lokal
+   Jika terminal belum berada di folder proyek, arahkan ke folder tersebut. Contoh untuk komputer pengembang:
 
-Jalankan dari direktori utama repository:
+   ```powershell
+   cd "C:\kuliah\rpl smstr 3\New folder\Shakila_Cake"
+   ```
 
-```powershell
-npm install
-npm test
-npx firebase-tools emulators:start --only hosting --project shakila-cake-web
+   Pada komputer lain, ganti lokasi di atas dengan lokasi folder `Shakila_Cake` yang sudah diunduh/diekstrak.
+
+## Menjalankan aplikasi
+
+1. Dari folder utama `Shakila_Cake`, masuk ke folder `public` aplikasi:
+
+   ```powershell
+   cd ".\shakila_cake_web\public"
+   ```
+
+   Pastikan folder aktif benar dengan menjalankan:
+
+   ```powershell
+   Get-Location
+   ```
+
+   Hasilnya harus berakhir dengan `Shakila_Cake\shakila_cake_web\public`.
+
+2. Jalankan server lokal:
+
+   ```powershell
+   python -m http.server 8000
+   ```
+
+   Jika Windows tidak mengenali perintah `python`, gunakan:
+
+   ```powershell
+   py -m http.server 8000
+   ```
+
+3. Biarkan terminal tetap terbuka selama aplikasi digunakan.
+4. Buka browser dan akses halaman katalog:
+
+   **http://localhost:8000/**
+
+5. Untuk halaman pengelola produk, akses:
+
+   **http://localhost:8000/admin.html**
+
+   Halaman admin memerlukan login akun Firebase yang sudah diberi akses admin. Setelah login, admin dapat mengelola produk dan melihat rekap pesanan.
+
+## Menghentikan server
+
+Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C**.
+
+## Catatan Firebase
+
+Server Python hanya menyajikan file web secara lokal; server ini tidak menggantikan Firebase. Fitur katalog, login admin, penyimpanan produk/pesanan, dan unggah foto memerlukan koneksi internet dan konfigurasi Firebase yang valid pada [firebase_config.js](shakila_cake_web/public/JS/firebase_config.js).
+
+Untuk demo fitur tersebut, project Firebase perlu mengaktifkan **Authentication Email/Password**, **Cloud Firestore**, dan **Firebase Storage**. Akun admin juga harus terdaftar di Firebase Authentication dan memiliki dokumen Firestore `admins/{UID_ADMIN}` dengan data:
+
+```json
+{
+  "active": true
+}
 ```
 
-Buka alamat Hosting Emulator yang ditampilkan Firebase CLI (biasanya `http://127.0.0.1:5000`). Hosting Emulator menyajikan berkas lokal, tetapi konfigurasi aplikasi tetap menunjuk ke layanan Firebase project pada [firebase_config.js](shakila_cake_web/public/JS/firebase_config.js); alur login, data, dan unggah foto memerlukan layanan tersebut serta aturan yang telah dideploy.
-
-## Demo alur utama
-
-1. Buka katalog, coba pencarian dan filter kategori.
-2. Pilih **Pesan**, isi nama, rasa, ukuran, jumlah lilin, tanggal/jam pengambilan, dan ucapan opsional.
-3. Jadwal harus berjarak minimal 48 jam dan berada pada pukul 08.00 sampai sebelum 18.00 waktu lokal.
-4. Pilih **Simpan & lanjut ke WhatsApp**. Pesanan dicatat ke Firestore dahulu; WhatsApp dibuka hanya jika penyimpanan berhasil.
-5. Login dengan akun yang UID-nya terdaftar di `admins/{UID_ADMIN}`. Tambah, edit, dan hapus produk serta periksa rekap pesanan.
-
-Jika gagal memuat atau menyimpan data, periksa koneksi, konfigurasi project, status layanan Firebase, serta aturan Firestore/Storage. Jangan gunakan aturan terbuka untuk demo publik. Aktifkan Firebase App Check sebelum penggunaan produksi untuk mengurangi penyalahgunaan endpoint publik pembuatan pesanan.
-
-## Deploy Hosting
-
-Setelah pengujian lokal dan konfigurasi Firebase selesai:
-
-```powershell
-npx firebase-tools deploy --only hosting --project shakila-cake-web
-```
-
-Aturan Firestore dan Storage dideploy terpisah dengan perintah pada langkah persiapan Firebase.
+Jika halaman menampilkan pesan gagal memuat/menyimpan data, periksa koneksi internet, konfigurasi project Firebase, layanan Firebase yang aktif, serta aturan keamanan Firestore dan Storage. Jangan mengganti aturan keamanan dengan aturan yang mengizinkan semua pengguna membaca dan menulis data.
