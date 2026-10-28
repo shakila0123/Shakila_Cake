@@ -9,7 +9,7 @@
     "rules": "storage.rules"
   },
   "hosting": {
-    "public": "shakila_cake_web/public",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",

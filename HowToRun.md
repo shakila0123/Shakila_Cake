@@ -17,7 +17,7 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
    ```
 
 2. Buka folder utama repository **Shakila_Cake** di VS Code.
-3. Buka terminal VS Code melalui menu **Terminal > New Terminal**. Terminal perlu berada di folder proyek yang berisi folder `shakila_cake_web`.
+3. Buka terminal VS Code melalui menu **Terminal > New Terminal**. Pastikan terminal berada di folder proyek utama `Shakila_Cake`.
 
    Jika terminal belum berada di folder proyek, arahkan ke folder tersebut. Contoh untuk komputer pengembang:
 
@@ -29,10 +29,10 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
 
 ## Menjalankan aplikasi
 
-1. Dari folder utama `Shakila_Cake`, masuk ke folder `public` aplikasi:
+1. Dari folder utama `Shakila_Cake`, pastikan folder `public` aktif (bila perlu masuk ke folder public):
 
    ```powershell
-   cd "shakila_cake_web\public"
+   cd "public"
    ```
 
    Pastikan folder aktif benar dengan menjalankan:
@@ -41,7 +41,7 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
    Get-Location
    ```
 
-   Hasilnya harus berakhir dengan `Shakila_Cake\shakila_cake_web\public`.
+   Hasilnya harus berakhir dengan `Shakila_Cake\public`.
 
 2. Jalankan server lokal:
 
@@ -98,7 +98,7 @@ Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C*
 
 ## Catatan Firebase
 
-Server Python hanya menyajikan file web secara lokal; server ini tidak menggantikan Firebase. Fitur katalog, login admin, penyimpanan produk/pesanan, dan unggah foto memerlukan koneksi internet dan konfigurasi Firebase yang valid pada [firebase_config.js](shakila_cake_web/public/JS/firebase_config.js).
+Server Python hanya menyajikan file web secara lokal; server ini tidak menggantikan Firebase. Fitur katalog, login admin, penyimpanan produk/pesanan, dan unggah foto memerlukan koneksi internet dan konfigurasi Firebase yang valid pada [firebase_config.js](public/JS/firebase_config.js).
 
 Untuk demo fitur tersebut, project Firebase perlu mengaktifkan **Authentication Email/Password**, **Cloud Firestore**, dan **Firebase Storage**.
 

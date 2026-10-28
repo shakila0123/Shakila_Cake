@@ -48,20 +48,30 @@ Terdapat dua peran utama dalam aplikasi ini:
 | **Autentikasi** | Firebase Authentication |
 | **Infrastruktur** | Firebase Hosting / GitHub Pages |
 
-## Rencana Struktur Proyek
+## Struktur Proyek
 
-shakila-cake-Web/
+Shakila_Cake/
   public/
-    index.html          (Halaman Katalog untuk Pelanggan)
-    admin.html          (Halaman Dasbor Manajemen)
-    css/
+    index.html          (Halaman katalog pelanggan)
+    admin.html          (Halaman dashboard admin)
+    login.html          (Halaman login admin)
+    CSS/
       style.css         (Styling aplikasi)
-    js/
-      app.js            (Logika UI pelanggan & integrasi WhatsApp)
-      admin.js          (Logika dasbor admin & autentikasi)
-      firebase-config.js (Inisialisasi Firebase SDK)
+    JS/
+      app.js            (Logika katalog & checkout)
+      admin.js          (Logika admin & CRUD produk)
+      login.js          (Logika login admin)
+      firebase_config.js (Konfigurasi Firebase SDK)
   docs/
-    README.md           (Dokumen proyek)
+    Panduan_Teknis_Firebase.md
+    Kebutuhan_Sistem.md
+    Perencanaan_ShakilaCake.md
+  tests/
+    ...                (Unit test untuk validator & engine)
+  src/
+    shakilamvp.js      (Export module utama)
+  HowToRun.md
+  README.md
 
 ## Dokumen Proyek
 
