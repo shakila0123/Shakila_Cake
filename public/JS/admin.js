@@ -1,4 +1,4 @@
-import { auth, db, storage } from './firebase_config.js';
+import { auth, db } from './firebase_config.js';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import {
     addDoc,
@@ -6,20 +6,15 @@ import {
     deleteDoc,
     doc,
     getDoc,
-    getDocs,
     onSnapshot,
     setDoc
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import {
-    deleteObject,
-    getDownloadURL,
-    ref,
-    uploadBytes
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
-import {
     validateImageUpload,
     validateProductData
 } from './shakilamvp.js';
+
+// Catatan: Import Firebase Storage sudah dihapus total agar tidak memicu error CORS
 
 const dashboardSection = document.getElementById('dashboard-section');
 const btnLogout = document.getElementById('btn-logout');
@@ -33,7 +28,9 @@ const orderList = document.getElementById('admin-order-list');
 const cancelEditButton = document.getElementById('cancel-product-edit');
 const accessError = document.getElementById('admin-access-error');
 const submitButton = productForm.querySelector('button[type="submit"]');
+const fallbackProductImageUrl = 'https://placehold.co/600x400?text=Shakila+Cake';
 let stopOrdersListener;
+let stopProductsListener;
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -84,7 +81,7 @@ imageInput.addEventListener('change', () => {
     }
     imagePreview.src = URL.createObjectURL(file);
     imagePreview.hidden = false;
-    uploadStatus.textContent = 'Foto siap diunggah.';
+    uploadStatus.textContent = 'Foto siap dikompres dan disimpan.';
 });
 
 productForm.addEventListener('submit', async (event) => {
@@ -106,75 +103,78 @@ productForm.addEventListener('submit', async (event) => {
         productError.textContent = 'Deskripsi produk maksimal 500 karakter.';
         return;
     }
-    if (!productId && !imageFile) {
-        productError.textContent = 'Pilih foto untuk produk baru.';
-        return;
-    }
-    if (imageFile) {
-        const imageValidation = validateImageUpload(imageFile);
-        if (!imageValidation.isValid) {
-            productError.textContent = imageValidation.message;
-            return;
-        }
-    }
 
     submitButton.disabled = true;
     submitButton.textContent = 'Menyimpan...';
-    let newImagePath = '';
-    let oldImageCleanupFailed = false;
+    
     try {
-        const productData = { name, category, price, description, isActive: true };
+        let finalImageUrl = fallbackProductImageUrl;
+
         if (imageFile) {
-            uploadStatus.textContent = 'Mengunggah foto...';
-            const extension = imageFile.type === 'image/png' ? 'png' : imageFile.type === 'image/webp' ? 'webp' : 'jpg';
-            newImagePath = `products/${crypto.randomUUID()}.${extension}`;
-            const imageRef = ref(storage, newImagePath);
-            await uploadBytes(imageRef, imageFile, { contentType: imageFile.type });
-            productData.imageUrl = await getDownloadURL(imageRef);
-            productData.storagePath = newImagePath;
+            uploadStatus.textContent = 'Memproses foto...';
+            // Ubah gambar menjadi format Base64 (Teks) agar bisa disimpan di Firestore
+            finalImageUrl = await convertImageToBase64(imageFile);
+        } else if (productId) {
+            // Jika sedang edit tapi tidak ganti foto, pertahankan foto lama
+            const oldProduct = await importProduct(productId);
+            if (oldProduct.imageUrl) {
+                finalImageUrl = oldProduct.imageUrl;
+            }
         }
 
+        const productData = { 
+            name, 
+            category, 
+            price, 
+            description, 
+            isActive: true, 
+            imageUrl: finalImageUrl 
+        };
+
         if (productId) {
-            const oldProduct = await importProduct(productId);
-            if (!imageFile) {
-                if (oldProduct.imageUrl) productData.imageUrl = oldProduct.imageUrl;
-                if (oldProduct.storagePath) productData.storagePath = oldProduct.storagePath;
-            }
             await setDoc(doc(db, 'products', productId), productData);
-            if (newImagePath && oldProduct.storagePath && oldProduct.storagePath !== newImagePath) {
-                try {
-                    await deleteObject(ref(storage, oldProduct.storagePath));
-                } catch (error) {
-                    console.error('Produk diperbarui, tetapi foto lama gagal dihapus:', error);
-                    oldImageCleanupFailed = true;
-                }
-            }
         } else {
             await addDoc(collection(db, 'products'), productData);
         }
+        
         resetProductForm();
-        await loadAdminData();
-        uploadStatus.textContent = oldImageCleanupFailed
-            ? 'Produk diperbarui, tetapi foto lama di Storage gagal dibersihkan.'
-            : 'Produk berhasil disimpan.';
+        uploadStatus.textContent = 'Produk berhasil disimpan!';
     } catch (error) {
         console.error('Gagal menyimpan produk:', error);
-        if (newImagePath) {
-            try {
-                await deleteObject(ref(storage, newImagePath));
-            } catch (cleanupError) {
-                console.error('Gagal membersihkan foto yang unggahannya tidak tersimpan:', cleanupError);
-            }
-        }
-        productError.textContent = `Gagal menyimpan produk: ${error.message || 'Periksa koneksi dan aturan Firebase.'}`;
+        productError.textContent = error.message || 'Gagal menyimpan produk. Periksa koneksi Firestore.';
         uploadStatus.textContent = '';
     } finally {
         submitButton.disabled = false;
-        submitButton.textContent = document.getElementById('prod-id').value
-            ? 'Simpan Perubahan'
-            : 'Simpan Produk';
+        submitButton.textContent = document.getElementById('prod-id').value ? 'Simpan Perubahan' : 'Simpan Produk';
     }
 });
+
+// FUNGSI BARU: Mengubah gambar menjadi format teks (Base64) dengan kompresi Canvas
+function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const maxDimension = 800; // Maksimal lebar/tinggi 800px agar aman di Firestore
+                const scale = Math.min(1, maxDimension / Math.max(img.width, img.height));
+                canvas.width = Math.max(1, Math.round(img.width * scale));
+                canvas.height = Math.max(1, Math.round(img.height * scale));
+
+                const context = canvas.getContext('2d');
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Kualitas 60% (0.6) untuk format JPEG agar ukuran Base64 sangat kecil
+                resolve(canvas.toDataURL('image/jpeg', 0.6));
+            };
+            img.onerror = () => reject(new Error('Gagal membaca gambar.'));
+        };
+        reader.onerror = () => reject(new Error('Gagal memproses file foto.'));
+    });
+}
 
 cancelEditButton.addEventListener('click', resetProductForm);
 
@@ -185,49 +185,63 @@ async function importProduct(productId) {
 }
 
 async function loadAdminData() {
-    await Promise.all([loadAdminProducts(), loadOrders()]);
+    loadAdminProducts();
+    loadOrders();
 }
 
-async function loadAdminProducts() {
+function loadAdminProducts() {
+    if (stopProductsListener) stopProductsListener();
     productList.textContent = 'Memuat produk...';
-    try {
-        const snapshot = await getDocs(collection(db, 'products'));
+
+    stopProductsListener = onSnapshot(collection(db, 'products'), (snapshot) => {
+        const products = snapshot.docs.map((productSnapshot) => ({
+            id: productSnapshot.id,
+            ...productSnapshot.data()
+        }));
+
         productList.replaceChildren();
-        if (snapshot.empty) {
+        if (!products.length) {
             productList.textContent = 'Belum ada produk.';
             return;
         }
-        snapshot.forEach((productSnapshot) => {
-            const product = productSnapshot.data();
+
+        products.forEach((product) => {
             const card = document.createElement('article');
             card.className = 'product-card';
             const image = document.createElement('img');
-            image.src = product.imageUrl || 'https://placehold.co/600x400?text=Foto+tidak+tersedia';
+            image.src = product.imageUrl || fallbackProductImageUrl;
             image.alt = product.name ? `Foto ${product.name}` : 'Foto produk';
             image.loading = 'lazy';
+            image.addEventListener('error', () => {
+                image.src = fallbackProductImageUrl;
+            }, { once: true });
+
             const name = document.createElement('h3');
             name.textContent = product.name || 'Produk tanpa nama';
             const category = document.createElement('p');
             category.textContent = `Kategori: ${product.category || '-'}`;
             const price = document.createElement('p');
             price.textContent = `Harga: Rp ${Number(product.price || 0).toLocaleString('id-ID')}`;
+            
             const editButton = document.createElement('button');
             editButton.type = 'button';
             editButton.className = 'btn-secondary';
             editButton.textContent = 'Edit';
-            editButton.addEventListener('click', () => editProduct(productSnapshot.id, product));
+            editButton.addEventListener('click', () => editProduct(product.id, product));
+            
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button';
             deleteButton.className = 'btn-danger';
             deleteButton.textContent = 'Hapus';
-            deleteButton.addEventListener('click', () => deleteProduct(productSnapshot.id, product));
+            deleteButton.addEventListener('click', () => deleteProduct(product.id, product));
+            
             card.append(image, name, category, price, editButton, deleteButton);
             productList.appendChild(card);
         });
-    } catch (error) {
+    }, (error) => {
         console.error('Gagal memuat produk admin:', error);
         productList.textContent = 'Produk gagal dimuat. Periksa koneksi dan aturan Firestore.';
-    }
+    });
 }
 
 function loadOrders() {
@@ -287,14 +301,7 @@ async function deleteProduct(productId, product) {
     if (!window.confirm(`Hapus produk "${product.name || 'ini'}"?`)) return;
     try {
         await deleteDoc(doc(db, 'products', productId));
-        if (product.storagePath) {
-            try {
-                await deleteObject(ref(storage, product.storagePath));
-            } catch (error) {
-                console.error('Produk terhapus, tetapi foto gagal dihapus:', error);
-                productError.textContent = 'Produk terhapus, tetapi foto di Storage gagal dibersihkan.';
-            }
-        }
+        // Catatan: Logika penghapusan foto di Storage sudah dihapus, cukup hapus data Firestore saja.
         await loadAdminProducts();
     } catch (error) {
         console.error('Gagal menghapus produk:', error);
