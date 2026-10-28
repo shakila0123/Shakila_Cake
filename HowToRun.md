@@ -66,6 +66,32 @@ Panduan ini untuk menjalankan aplikasi secara lokal di komputer  menggunakan Pyt
 
    Halaman admin memerlukan login akun Firebase yang sudah diberi akses admin. Setelah login, admin dapat mengelola produk dan melihat rekap pesanan.
 
+## Menjalankan test
+
+Proyek ini sudah memiliki script test yang diatur di `package.json`, jadi Anda bisa menjalankannya dengan perintah berikut dari folder utama repository:
+
+```powershell
+npm install
+npm test
+```
+
+Jika ingin melihat daftar test yang terdeteksi tanpa menjalankannya semua, gunakan:
+
+```powershell
+npm test -- --listTests
+```
+
+Catatan:
+
+- Jalankan perintah di folder utama proyek `Shakila_Cake`, bukan di dalam folder `public`.
+- Jika `npm` belum terinstal atau perintah tidak dikenali, pastikan Node.js dan npm sudah terpasang di komputer Anda.
+- Jika ingin mengecek versi Node.js:
+
+  ```powershell
+  node --version
+  npm --version
+  ```
+
 ## Menghentikan server
 
 Kembali ke terminal VS Code yang sedang menjalankan server, lalu tekan **Ctrl+C**.
