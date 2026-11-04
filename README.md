@@ -73,6 +73,28 @@ Shakila_Cake/
   HowToRun.md
   README.md
 
+## Instalasi Fresh Clone & Run
+
+1. Clone repository:
+
+```bash
+git clone https://github.com/shakila0123/Shakila_Cake.git
+cd Shakila_Cake
+```
+
+2. Jalankan local server:
+
+```bash
+python -m http.server 8000
+```
+
+3. Akses aplikasi:
+
+- Aplikasi pelanggan: http://localhost:8000
+- Admin: http://localhost:8000/admin.html
+
+Status: Fresh Clone siap dijalankan tanpa build, seluruh Unit Test PASSED.
+
 ## Dokumen Proyek
 
 | Dokumen | Isi |
@@ -83,9 +105,9 @@ Shakila_Cake/
 | [`HowToRun.md`](HowToRun.md) | Persiapan Firebase dan petunjuk menjalankan aplikasi |
 | [`checklist_mvp.md`](checklist_mvp.md) | Checklist fitur dan status pengujian MVP |
 
-## Upload Foto Produk
+## Pengolahan Gambar Produk
 
-Aktifkan Firebase Storage untuk project terlebih dahulu, lalu deploy situs dan aturan Storage dengan `firebase deploy --only hosting,storage`. Admin yang sudah login dapat mengunggah foto maksimal 5 MB; foto disimpan di Firebase Storage dan otomatis ditampilkan di katalog.
+Gambar produk diproses langsung di browser menggunakan Canvas HTML5, dikompresi menjadi teks Base64, lalu disimpan langsung ke Firestore. Firebase Storage telah dilepas sepenuhnya untuk menghindari masalah CORS saat dijalankan dari localhost dan menyederhanakan arsitektur aplikasi.
 
 ## Bagian yang Akan Ditambahkan Setelah Aplikasi Jadi
 
@@ -94,7 +116,3 @@ Aktifkan Firebase Storage untuk project terlebih dahulu, lalu deploy situs dan a
 * [ ] Panduan singkat penggunaan dasbor admin untuk Mama
 * [ ] Struktur data produk di Firebase
 * [ ] Rencana pengembangan fitur selanjutnya
-
-```
-
-```

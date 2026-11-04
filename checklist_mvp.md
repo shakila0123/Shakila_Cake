@@ -13,7 +13,7 @@ Status tes di bawah mencatat validasi unit otomatis yang dijalankan dengan `npm 
 | Pesanan dicatat dahulu ke Firestore sebelum WhatsApp dibuka; kegagalan simpan menghentikan checkout | Selesai | Perlu uji manual dengan Firebase Auth/Firestore aktif |
 | Format dan URL WhatsApp membawa detail pesanan serta estimasi total | Selesai | **PASSED** — `whatsapp_engine.test.js` |
 | Login admin dan verifikasi dokumen `admins/{uid}` aktif | Selesai | Perlu uji manual dengan akun admin Firebase |
-| Admin tambah, edit, dan hapus produk serta unggah foto maksimal 5 MB | Selesai | **PASSED** untuk validasi data/berkas — `admin_Product_Validator.test.js`; CRUD/Storage perlu uji manual |
+| Admin dapat menambah produk (Gambar berhasil diproses menggunakan Canvas HTML5 menjadi kompresi teks Base64 dan disimpan langsung ke Firestore, Firebase Storage telah dilepas sepenuhnya) | PASSED | PASSED |
 | Rekap pesanan admin diurutkan berdasarkan jadwal pengambilan, termasuk kondisi kosong/gagal muat | Selesai | Perlu uji manual dengan data Firestore |
 | Akses baca/tulis dibatasi melalui aturan Firestore dan Storage | Selesai pada berkas aturan | Perlu deploy dan uji aturan pada project Firebase |
 | Tampilan responsif untuk katalog, formulir, dan dasbor | Selesai pada stylesheet | Perlu uji visual pada browser desktop dan mobile |
