@@ -14,8 +14,31 @@ header {
     position: relative;
     background-color: #b67a4a;
     color: white;
-    padding: 20px;
-    text-align: center;
+    padding: 20px 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Jarak antara logo dan teks */
+}
+
+.logo {
+    border-radius: 50%; /* Opsional: biar bentuk logonya melingkar rapi */
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
 }
 
 main {
