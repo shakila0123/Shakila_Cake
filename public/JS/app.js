@@ -72,15 +72,26 @@ function loadProducts() {
     if (!productList) return;
     productList.textContent = 'Memuat produk...';
 
-    onSnapshot(collection(db, 'products'), (snapshot) => {
-        products = snapshot.docs.map((item) => ({ ...item.data(), id: item.id }));
-        productsById.clear();
-        products.forEach((product) => productsById.set(product.id, product));
-        renderProducts();
-    }, (error) => {
-        console.error('Gagal memuat katalog:', error);
-        productList.textContent = 'Katalog belum dapat dimuat. Periksa koneksi internet dan konfigurasi Firebase.';
-    });
+    try {
+        onSnapshot(collection(db, 'products'), (snapshot) => {
+            products = snapshot.docs.map((item) => ({ ...item.data(), id: item.id }));
+            productsById.clear();
+            products.forEach((product) => productsById.set(product.id, product));
+            renderProducts();
+        }, showCatalogLoadError);
+    } catch (error) {
+        showCatalogLoadError(error);
+    }
+}
+
+function showCatalogLoadError(error) {
+    console.error('Gagal memuat katalog:', error);
+    products = [];
+    productsById.clear();
+    const productList = document.getElementById('product-list');
+    if (productList) {
+        productList.textContent = 'Katalog belum dapat dimuat. Periksa koneksi internet dan konfigurasi Firebase, lalu muat ulang halaman.';
+    }
 }
 
 function renderProducts() {
