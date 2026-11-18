@@ -52,6 +52,35 @@ main {
     margin: 0 auto;
 }
 
+.site-footer {
+    margin-top: 40px;
+    padding: 24px 20px;
+    background-color: #b67a4a;
+    color: #ffffff;
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.site-footer__inner a {
+    color: inherit;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    .site-footer__inner {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 .filters {
     display: flex;
     gap: 10px;
