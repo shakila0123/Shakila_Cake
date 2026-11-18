@@ -71,8 +71,11 @@ main {
 
 .site-footer__inner a {
     color: inherit;
+    font-weight: 600;
     text-underline-offset: 3px;
 }
+
+.site-footer__inner p { line-height: 1.5; }
 
 @media (max-width: 600px) {
     .site-footer__inner {
