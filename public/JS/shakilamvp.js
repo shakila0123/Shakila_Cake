@@ -18,7 +18,14 @@ export function filterCatalog(products, { category = 'ALL', searchQuery = '' } =
 export const SIZE_MULTIPLIERS = {
   '16cm': 1.0,
   '20cm': 1.35,
-  '24cm': 1.75
+  '24cm': 1.75,
+  'brownies-20x10': 1.0,
+  'brownies-20x20': 2.0,
+  'bolu-gulung-24cm': 1.0,
+  'pie-buah-box-10': 1.0,
+  'pie-buah-box-20': 2.0,
+  'bolu-20cm': 1.0,
+  standard: 1.0
 };
 
 export const CANDLE_PRICE = 5000; // Harga lilin angka per biji

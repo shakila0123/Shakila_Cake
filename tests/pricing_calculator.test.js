@@ -23,6 +23,14 @@ describe('MVP 2: Kalkulasi Harga Kustomisasi Kue', () => {
     expect(calculation.totalPrice).toBe(217500);
   });
 
+  test('Harus menghitung ukuran kategori lain dengan pengali harga yang benar', () => {
+    expect(calculateOrderPrice({ basePrice, size: 'brownies-20x10' }).cakePrice).toBe(basePrice);
+    expect(calculateOrderPrice({ basePrice, size: 'brownies-20x20' }).cakePrice).toBe(basePrice * 2);
+    expect(calculateOrderPrice({ basePrice, size: 'pie-buah-box-20' }).cakePrice).toBe(basePrice * 2);
+    expect(calculateOrderPrice({ basePrice, size: 'bolu-gulung-24cm' }).cakePrice).toBe(basePrice);
+    expect(calculateOrderPrice({ basePrice, size: 'bolu-20cm' }).cakePrice).toBe(basePrice);
+  });
+
   test('Harus melempar error jika teks ucapan melebihi batas 35 karakter', () => {
     const longGreeting = 'Selamat ulang tahun yang ke-25 untuk sahabat terbaikku sepanjang masa!';
     expect(() => {

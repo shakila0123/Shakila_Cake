@@ -11,6 +11,37 @@ import { initWAModal, WA_NUMBER } from './fitur_wa.js';
 const productsById = new Map();
 let products = [];
 let activeCategory = 'ALL';
+const flavorOptionsByCategory = {
+    'Kue Ulang Tahun': ['Blackforest', 'Choco Vanilla', 'Red Velvet'],
+    Brownies: ['Cokelat Chip', 'Almond', 'Keju'],
+    'Bolu Gulung': ['cokelat', 'keju', 'Cokelat Keju'],
+    'Pie Buah': ['Buah'],
+    Default: ['Original']
+};
+const sizeOptionsByCategory = {
+    'Kue Ulang Tahun': [
+        { value: '16cm', label: '16 cm (standar)' },
+        { value: '20cm', label: '20 cm (+35%)' },
+        { value: '24cm', label: '24 cm (+75%)' }
+    ],
+    Brownies: [
+        { value: 'brownies-20x10', label: '20x10 cm (standar)' },
+        { value: 'brownies-20x20', label: '20x20 cm (+100%)' }
+    ],
+    'Bolu Gulung': [
+        { value: 'bolu-gulung-24cm', label: 'Panjang 24 cm (standar)' }
+    ],
+    'Pie Buah': [
+        { value: 'pie-buah-box-10', label: 'Box isi 10 (standar)' },
+        { value: 'pie-buah-box-20', label: 'Box isi 20 (+100%)' }
+    ],
+    Bolu: [
+        { value: 'bolu-20cm', label: 'Diameter 20 cm (standar)' }
+    ],
+    Default: [
+        { value: 'standard', label: 'Ukuran standar' }
+    ]
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     initWAModal();
@@ -105,10 +136,66 @@ function openOrderModal(productId) {
     document.getElementById('product-id').value = product.id;
     document.getElementById('product-name').value = product.name || '';
     document.getElementById('order-product-price').textContent = `Harga dasar: Rp ${Number(product.price || 0).toLocaleString('id-ID')}`;
+    populateFlavorOptions(product.category);
+    populateSizeOptions(product.category);
     document.getElementById('order-error').textContent = '';
     updatePriceEstimate();
     document.getElementById('order-modal').classList.remove('hidden');
     document.getElementById('customer-name').focus();
+}
+
+function populateFlavorOptions(category) {
+    const flavorSelect = document.getElementById('order-flavor');
+    if (!flavorSelect) return;
+
+    const flavors = getCategoryOptions(flavorOptionsByCategory, category);
+
+    flavorSelect.replaceChildren();
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.textContent = 'Pilih varian rasa';
+    flavorSelect.appendChild(placeholder);
+
+    flavors.forEach((flavor) => {
+        const option = document.createElement('option');
+        option.value = flavor;
+        option.textContent = flavor;
+        flavorSelect.appendChild(option);
+    });
+}
+
+function populateSizeOptions(category) {
+    const sizeSelect = document.getElementById('order-size');
+    if (!sizeSelect) return;
+
+    const sizes = getCategoryOptions(sizeOptionsByCategory, category);
+
+    sizeSelect.replaceChildren();
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.textContent = 'Pilih ukuran';
+    sizeSelect.appendChild(placeholder);
+
+    sizes.forEach(({ value, label }) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = label;
+        sizeSelect.appendChild(option);
+    });
+}
+
+function getCategoryOptions(optionsByCategory, category) {
+    if (typeof category !== 'string') return optionsByCategory.Default;
+
+    const normalizedCategory = category.trim().toLocaleLowerCase('id-ID');
+    const matchingCategory = Object.keys(optionsByCategory).find((key) =>
+        key !== 'Default' && key.toLocaleLowerCase('id-ID') === normalizedCategory
+    );
+    return matchingCategory ? optionsByCategory[matchingCategory] : optionsByCategory.Default;
 }
 
 async function submitOrder(event) {
@@ -119,7 +206,9 @@ async function submitOrder(event) {
     const product = productsById.get(document.getElementById('product-id').value);
     const customerName = document.getElementById('customer-name').value.trim();
     const flavor = document.getElementById('order-flavor').value.trim();
-    const size = document.getElementById('order-size').value;
+    const sizeSelect = document.getElementById('order-size');
+    const size = sizeSelect.value;
+    const sizeLabel = sizeSelect.selectedOptions[0]?.textContent || size;
     const greetingText = document.getElementById('order-text').value.trim();
     const candleCount = Number(document.getElementById('order-candles').value);
     const pickupDateTime = document.getElementById('order-date').value;
@@ -158,7 +247,7 @@ async function submitOrder(event) {
         storePhone: WA_NUMBER,
         customerName,
         cakeName: product.name,
-        size,
+        size: sizeLabel,
         flavor,
         candleCount,
         greetingText,
@@ -181,7 +270,7 @@ async function submitOrder(event) {
             productName: product.name,
             category: product.category || '',
             flavor,
-            size,
+            size: sizeLabel,
             greetingText,
             candleCount,
             pickupAt: pickupDate.toISOString(),
