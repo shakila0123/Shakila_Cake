@@ -27,8 +27,13 @@ header {
 }
 
 .logo {
-    border-radius: 50%; /* Opsional: biar bentuk logonya melingkar rapi */
+    width: 80px;
+    max-width: 20vw;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
 }
+.logo-compact { width: 60px; }
 
 .header-text h1 {
     margin: 0;
