@@ -7,6 +7,7 @@ import {
     doc,
     getDoc,
     onSnapshot,
+    runTransaction,
     setDoc,
     updateDoc
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
@@ -43,8 +44,13 @@ const orderStatusLabels = {
     cancel: 'Cancel',
     menunggu_konfirmasi: 'Menunggu Konfirmasi'
 };
+const unpaidOrderTimeoutMs = 24 * 60 * 60 * 1000;
+const orderAutoCancelIntervalMs = 60 * 1000;
+const autoCancelInProgress = new Set();
 let stopOrdersListener;
 let stopProductsListener;
+let orderAutoCancelTimer;
+let latestOrders = [];
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -260,17 +266,20 @@ function loadAdminProducts() {
 
 function loadOrders() {
     if (stopOrdersListener) stopOrdersListener();
+    if (orderAutoCancelTimer) clearInterval(orderAutoCancelTimer);
+    latestOrders = [];
     orderList.textContent = 'Memuat rekap pesanan...';
     stopOrdersListener = onSnapshot(collection(db, 'orders'), (snapshot) => {
-        const orders = snapshot.docs
+        latestOrders = snapshot.docs
             .map((item) => ({ id: item.id, ...item.data() }))
             .sort((first, second) => new Date(first.pickupAt).getTime() - new Date(second.pickupAt).getTime());
+        void cancelExpiredUnpaidOrders(latestOrders);
         orderList.replaceChildren();
-        if (!orders.length) {
+        if (!latestOrders.length) {
             orderList.textContent = 'Belum ada pesanan yang tercatat.';
             return;
         }
-        orders.forEach((order) => {
+        latestOrders.forEach((order) => {
             const card = document.createElement('article');
             card.className = 'order-card';
             const heading = document.createElement('h3');
@@ -336,6 +345,49 @@ function loadOrders() {
         console.error('Gagal memuat rekap pesanan:', error);
         orderList.textContent = 'Rekap gagal dimuat. Periksa koneksi dan aturan Firestore.';
     });
+    orderAutoCancelTimer = window.setInterval(() => {
+        void cancelExpiredUnpaidOrders(latestOrders);
+    }, orderAutoCancelIntervalMs);
+}
+
+async function cancelExpiredUnpaidOrders(orders) {
+    const now = Date.now();
+    const expiredOrders = orders.filter((order) => {
+        if (order.status !== 'menunggu_pembayaran') return false;
+        const createdAt = getCreatedAtTimestamp(order.createdAt);
+        return Number.isFinite(createdAt) && now - createdAt >= unpaidOrderTimeoutMs;
+    });
+
+    await Promise.all(expiredOrders.map(async (order) => {
+        if (autoCancelInProgress.has(order.id)) return;
+        autoCancelInProgress.add(order.id);
+
+        try {
+            await runTransaction(db, async (transaction) => {
+                const orderRef = doc(db, 'orders', order.id);
+                const orderSnapshot = await transaction.get(orderRef);
+                if (!orderSnapshot.exists()) return;
+
+                const currentOrder = orderSnapshot.data();
+                if (currentOrder.status !== 'menunggu_pembayaran') return;
+                const createdAt = getCreatedAtTimestamp(currentOrder.createdAt);
+                if (!Number.isFinite(createdAt) || Date.now() - createdAt < unpaidOrderTimeoutMs) return;
+
+                transaction.update(orderRef, { status: 'cancel' });
+            });
+        } catch (error) {
+            console.error(`Gagal membatalkan otomatis pesanan ${order.id}:`, error);
+        } finally {
+            autoCancelInProgress.delete(order.id);
+        }
+    }));
+}
+
+function getCreatedAtTimestamp(createdAt) {
+    if (typeof createdAt === 'string') return Date.parse(createdAt);
+    if (createdAt instanceof Date) return createdAt.getTime();
+    if (createdAt && typeof createdAt.toMillis === 'function') return createdAt.toMillis();
+    return Number.NaN;
 }
 
 function getOrderStatusLabel(status) {
