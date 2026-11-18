@@ -7,7 +7,8 @@ import {
     doc,
     getDoc,
     onSnapshot,
-    setDoc
+    setDoc,
+    updateDoc
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import {
     validateImageUpload,
@@ -29,6 +30,19 @@ const cancelEditButton = document.getElementById('cancel-product-edit');
 const accessError = document.getElementById('admin-access-error');
 const submitButton = productForm.querySelector('button[type="submit"]');
 const fallbackProductImageUrl = 'https://placehold.co/600x400?text=Shakila+Cake';
+const orderStatusOptions = [
+    { value: 'acc', label: 'ACC' },
+    { value: 'menunggu_pembayaran', label: 'Menunggu Pembayaran' },
+    { value: 'diproses', label: 'Diproses' },
+    { value: 'cancel', label: 'Cancel' }
+];
+const orderStatusLabels = {
+    acc: 'ACC',
+    menunggu_pembayaran: 'Menunggu Pembayaran',
+    diproses: 'Diproses',
+    cancel: 'Cancel',
+    menunggu_konfirmasi: 'Menunggu Konfirmasi'
+};
 let stopOrdersListener;
 let stopProductsListener;
 
@@ -270,15 +284,62 @@ function loadOrders() {
             greeting.textContent = `Ucapan: ${order.greetingText || '-'}`;
             const total = document.createElement('p');
             total.textContent = `Total estimasi: Rp ${Number(order.totalPrice || 0).toLocaleString('id-ID')}`;
+            const currentStatus = typeof order.status === 'string' && order.status
+                ? order.status
+                : 'menunggu_konfirmasi';
             const status = document.createElement('p');
-            status.textContent = `Status: ${order.status || 'menunggu_konfirmasi'}`;
-            card.append(heading, schedule, details, greeting, total, status);
+            status.textContent = `Status saat ini: ${getOrderStatusLabel(currentStatus)}`;
+            const statusLabel = document.createElement('label');
+            statusLabel.textContent = 'Ubah status: ';
+            const statusSelect = document.createElement('select');
+            statusSelect.setAttribute('aria-label', `Ubah status pesanan ${order.customerName || 'pelanggan'}`);
+
+            if (!orderStatusOptions.some((option) => option.value === currentStatus)) {
+                const currentOption = document.createElement('option');
+                currentOption.value = currentStatus;
+                currentOption.textContent = `${getOrderStatusLabel(currentStatus)} (status saat ini)`;
+                statusSelect.appendChild(currentOption);
+            }
+            orderStatusOptions.forEach(({ value, label }) => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = label;
+                statusSelect.appendChild(option);
+            });
+            statusSelect.value = currentStatus;
+            const statusFeedback = document.createElement('p');
+            statusFeedback.className = 'form-error';
+            statusFeedback.setAttribute('role', 'status');
+            statusFeedback.setAttribute('aria-live', 'polite');
+            statusLabel.appendChild(statusSelect);
+            statusSelect.addEventListener('change', async () => {
+                const nextStatus = statusSelect.value;
+                statusSelect.disabled = true;
+                statusFeedback.textContent = 'Menyimpan perubahan status...';
+                try {
+                    await updateDoc(doc(db, 'orders', order.id), { status: nextStatus });
+                    statusFeedback.textContent = 'Status berhasil diperbarui.';
+                } catch (error) {
+                    console.error(`Gagal mengubah status pesanan ${order.id}:`, error);
+                    statusSelect.value = currentStatus;
+                    statusFeedback.textContent = 'Status gagal disimpan. Periksa koneksi dan aturan Firestore, lalu coba lagi.';
+                    window.alert('Status pesanan gagal disimpan. Periksa koneksi dan aturan Firestore, lalu coba lagi.');
+                } finally {
+                    statusSelect.disabled = false;
+                }
+            });
+
+            card.append(heading, schedule, details, greeting, total, status, statusLabel, statusFeedback);
             orderList.appendChild(card);
         });
     }, (error) => {
         console.error('Gagal memuat rekap pesanan:', error);
         orderList.textContent = 'Rekap gagal dimuat. Periksa koneksi dan aturan Firestore.';
     });
+}
+
+function getOrderStatusLabel(status) {
+    return orderStatusLabels[status] || status.replace(/_/g, ' ');
 }
 
 function editProduct(productId, product) {
