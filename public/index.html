@@ -37,10 +37,10 @@
     </main>
 
     <!-- Modal Form Pemesanan -->
-    <div id="order-modal" class="modal hidden">
+    <div id="order-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
         <div class="modal-content">
             <button type="button" class="close-btn" aria-label="Tutup form pesanan">&times;</button>
-            <h2>Form Pesanan</h2>
+            <h2 id="order-modal-title">Form Pesanan</h2>
             <form id="order-form">
                 <input type="hidden" id="product-id">
                 <input type="hidden" id="product-name">
