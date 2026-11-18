@@ -124,7 +124,20 @@ main {
     background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px;
     position: relative;
 }
-.close-btn { position: absolute; right: 15px; top: 15px; font-size: 24px; cursor: pointer; }
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: 0;
+    padding: 4px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+.close-btn:focus-visible { outline: 2px solid #704b32; outline-offset: 2px; }
 .modal form { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .birthday-options { display: flex; flex-direction: column; gap: 10px; }
 .modal input, .modal textarea { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
