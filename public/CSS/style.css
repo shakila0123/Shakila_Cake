@@ -121,6 +121,7 @@ main {
 }
 .close-btn { position: absolute; right: 15px; top: 15px; font-size: 24px; cursor: pointer; }
 .modal form { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.birthday-options { display: flex; flex-direction: column; gap: 10px; }
 .modal input, .modal textarea { padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
 .btn-wa { background: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 

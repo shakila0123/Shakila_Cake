@@ -53,16 +53,18 @@
                 <select id="order-flavor" required>
                     <option value="" selected disabled>Pilih varian rasa</option>
                 </select>
-                <label for="order-size">Ukuran kue</label>
-                <select id="order-size" required>
-                    <option value="" selected disabled>Pilih ukuran</option>
-                </select>
-                <label for="order-candles">Lilin angka (opsional)</label>
-                <input type="number" id="order-candles" min="0" max="20" step="1" value="0">
+                <div id="birthday-options" class="birthday-options hidden">
+                    <label for="order-size">Ukuran kue</label>
+                    <select id="order-size" required>
+                        <option value="" selected disabled>Pilih ukuran</option>
+                    </select>
+                    <label for="order-candles">Lilin angka (opsional)</label>
+                    <input type="number" id="order-candles" min="0" max="20" step="1" value="0">
+                    <label for="order-text">Tulisan di atas kue (maksimal 35 karakter)</label>
+                    <textarea id="order-text" rows="2" maxlength="35" placeholder="Contoh: Selamat Ulang Tahun"></textarea>
+                </div>
                 <label for="order-date">Tanggal dan jam pengambilan (minimal H-2, pukul 08.00-18.00)</label>
                 <input type="datetime-local" id="order-date" required>
-                <label for="order-text">Tulisan di atas kue (maksimal 35 karakter)</label>
-                <textarea id="order-text" rows="2" maxlength="35" placeholder="Contoh: Selamat Ulang Tahun"></textarea>
                 <p id="order-error" class="form-error" role="alert" aria-live="assertive"></p>
                 <button type="submit" class="btn-wa">Simpan & lanjut ke WhatsApp</button>
             </form>

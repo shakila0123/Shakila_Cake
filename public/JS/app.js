@@ -138,6 +138,7 @@ function openOrderModal(productId) {
     document.getElementById('order-product-price').textContent = `Harga dasar: Rp ${Number(product.price || 0).toLocaleString('id-ID')}`;
     populateFlavorOptions(product.category);
     populateSizeOptions(product.category);
+    configureBirthdayOptions(product.category);
     document.getElementById('order-error').textContent = '';
     updatePriceEstimate();
     document.getElementById('order-modal').classList.remove('hidden');
@@ -186,6 +187,27 @@ function populateSizeOptions(category) {
         option.textContent = label;
         sizeSelect.appendChild(option);
     });
+}
+
+function configureBirthdayOptions(category) {
+    const birthdayOptions = document.getElementById('birthday-options');
+    const sizeSelect = document.getElementById('order-size');
+    const candleInput = document.getElementById('order-candles');
+    const greetingInput = document.getElementById('order-text');
+    const isBirthdayCake = typeof category === 'string'
+        && category.trim().toLocaleLowerCase('id-ID') === 'kue ulang tahun';
+
+    birthdayOptions.classList.toggle('hidden', !isBirthdayCake);
+    birthdayOptions.querySelectorAll('select, input, textarea').forEach((field) => {
+        field.disabled = !isBirthdayCake;
+    });
+    sizeSelect.required = isBirthdayCake;
+
+    if (!isBirthdayCake) {
+        sizeSelect.value = sizeSelect.options[1]?.value || '';
+        candleInput.value = '0';
+        greetingInput.value = '';
+    }
 }
 
 function getCategoryOptions(optionsByCategory, category) {
