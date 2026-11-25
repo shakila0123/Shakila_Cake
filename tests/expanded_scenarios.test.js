@@ -22,6 +22,7 @@ const validCategories = [
   'Bolu Gulung',
   'Brownies',
   'Pie Buah',
+  'Pie buah',
   'Bolu'
 ];
 
@@ -240,7 +241,7 @@ describe('Skenario tambahan validasi logika Shakila Cake', () => {
     'menghitung harga dasar untuk ukuran %s',
     (size, multiplier) => {
       const result = calculateOrderPrice({ basePrice: 100000, size });
-      expect(result.cakePrice).toBe(size === '16cm' ? 100001 : Math.round(100000 * multiplier));
+      expect(result.cakePrice).toBe(Math.round(100000 * multiplier));
       expect(result.totalPrice).toBe(result.cakePrice);
     }
   );
